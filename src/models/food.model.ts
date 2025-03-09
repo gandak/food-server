@@ -18,3 +18,5 @@ const FoodSchema = new Schema(
   },
   { timestamps: true }
 );
+
+export default mongoose.model<FoodSchemaType>("Food", FoodSchema);
