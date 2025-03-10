@@ -1,42 +1,71 @@
 import foodCategoryModel from "../../models/food-category.model";
 import { Request, Response } from "express";
+import foodModel from "../../models/food.model";
+
+export const createFood = async (req: Request, res: Response) => {
+  try {
+    const { foodName, price, image, ingredients, category } = req.body;
+    const newFood = await foodModel.create({
+      foodName: foodName,
+      price: price,
+      image: image,
+      ingredients: ingredients,
+      category: category,
+    });
+    res.status(200).json({ message: "Successfully created food", newFood });
+  } catch (error) {
+    res.status(500).json({ message: "Error while creating food ", error });
+  }
+};
+
+export const getAllFood = async (req: Request, res: Response) => {
+  try {
+    const allFood = await foodModel.find();
+
+    res.status(200).json({ message: "Successfully found foods", allFood });
+  } catch (error) {
+    res.status(500).json({ message: "Error while getting foods", error });
+  }
+};
 
 export const getFood = async (req: Request, res: Response) => {
   try {
-    const allFoods = await foodCategoryModel.find();
+    const { foodId } = req.params;
+    console.log(foodId);
+    const foundFood = await foodModel.find({ _id: foodId });
 
-    res.status(200).json({ message: "Successfully received foods", allFoods });
+    res
+      .status(200)
+      .json({ message: "Successfully found food by ID", foundFood });
   } catch (error) {
-    res.status(500).json({ message: "Error in getting foods", error });
+    res.status(500).json({ message: "Error while getting food by ID", error });
   }
 };
 
 export const updateFood = async (req: Request, res: Response) => {
   try {
-    const { _id, categoryName } = req.body;
-    await foodCategoryModel.updateOne({ _id }, { categoryName });
+    const { _id } = req.params;
+    const { foodName, price, image, ingredients } = req.body;
+    if (price) await foodModel.updateOne({ _id }, { price });
+    if (foodName) await foodModel.updateOne({ _id }, { foodName });
+    if (image) await foodModel.updateOne({ _id }, { image });
+    if (ingredients) await foodModel.updateOne({ _id }, { ingredients });
 
-    const allCategories = await foodCategoryModel.find();
+    const foundFood = await foodModel.find({ _id });
 
-    res
-      .status(200)
-      .json({ message: "Successfully edited category", allCategories });
+    res.status(200).json({ message: "Successfully edited food", foundFood });
   } catch (error) {
-    res.status(500).json({ message: "Error in createFoodCategory", error });
+    res.status(500).json({ message: "Error while editing food", error });
   }
 };
 
-export const deteleFoodCategory = async (req: Request, res: Response) => {
+export const deleteFood = async (req: Request, res: Response) => {
   try {
-    const { _id, categoryName } = req.body;
-    await foodCategoryModel.deleteOne({ _id });
+    const { _id } = req.params;
+    await foodModel.deleteOne({ _id });
 
-    const allCategories = await foodCategoryModel.find();
-
-    res
-      .status(200)
-      .json({ message: "Successfully deleted category", allCategories });
+    res.status(200).json({ message: "Successfully deleted food" });
   } catch (error) {
-    res.status(500).json({ message: "Error in createFoodCategory", error });
+    res.status(500).json({ message: "Error while deleting food", error });
   }
 };
