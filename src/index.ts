@@ -13,6 +13,7 @@ connectMongoDb();
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 app.use("/food", foodRoute);
 app.use("/food-category", categoryRoute);
