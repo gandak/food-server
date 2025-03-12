@@ -21,8 +21,10 @@ export const createFoodOrder = async (req: Request, res: Response) => {
 
 export const getUserOrder = async (req: Request, res: Response) => {
   try {
-    const { user } = req.params;
-    const userOrder = await foodOrderModel.find({ user });
+    const { UserId } = req.params;
+    const userOrder = await foodOrderModel
+      .find({ user: UserId })
+      .populate("user");
 
     res
       .status(200)
@@ -46,9 +48,13 @@ export const getAllOrder = async (req: Request, res: Response) => {
 
 export const updateFoodOrder = async (req: Request, res: Response) => {
   try {
-    const { _id } = req.params;
+    const { foodOrderId } = req.params;
     const { food, quantity } = req.body;
-    await foodCategoryModel.updateOne({ _id }, { food }, { quantity });
+    await foodCategoryModel.updateOne(
+      { _id: foodOrderId },
+      { food },
+      { quantity }
+    );
 
     res.status(200).json({ message: "Successfully edited order" });
   } catch (error) {

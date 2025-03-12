@@ -14,7 +14,7 @@ const FoodOrderSchema = new Schema(
     totalPrice: { type: Number, required: true },
     foodOrderItems: {
       type: [Schema.Types.ObjectId],
-      rel: "FoodOrderItem",
+      ref: "FoodOrderItem",
       required: true,
     },
     status: ["pending", "canceled", "delivered"],

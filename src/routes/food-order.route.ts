@@ -10,7 +10,7 @@ const orderRoute = express.Router();
 
 orderRoute.post("/", createFoodOrder);
 orderRoute.get("/", getAllOrder);
-orderRoute.get("/:foodCategoryId", getUserOrder);
-orderRoute.patch("/:foodCategoryId", updateFoodOrder);
+orderRoute.get("/:UserId", getUserOrder);
+orderRoute.patch("/:foodOrderId", updateFoodOrder);
 
 export default orderRoute;

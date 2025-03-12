@@ -8,7 +8,7 @@ type FoodOrderItemSchemaType = {
 const FoodOrderItemSchema = new Schema({
   food: {
     type: Schema.Types.ObjectId,
-    rel: "Food",
+    ref: "Food",
     required: true,
   },
   quantity: { type: Number, required: true },
