@@ -7,6 +7,7 @@ import route from "./routes/food-category.route";
 import categoryRoute from "./routes/food-category.route";
 import foodRoute from "./routes/food.route";
 import orderRoute from "./routes/food-order.route";
+import userRoute from "./routes/user.route";
 
 configDotenv();
 connectMongoDb();
@@ -18,6 +19,7 @@ app.use(cors());
 app.use("/food", foodRoute);
 app.use("/food-category", categoryRoute);
 app.use("/food-order", orderRoute);
+app.use("/auth", userRoute);
 
 const port = process.env.PORT;
 
