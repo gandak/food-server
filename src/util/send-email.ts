@@ -3,11 +3,10 @@ import nodemailer from "nodemailer";
 export const sendEmail = async (email: string, token: string) => {
   const mailSecret = process.env.MAIL_SECRET;
   const mail = process.env.MAIL;
-
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 465,
-    secure: true,
+    port: 465, // Port
+    secure: true, // this is true as port is 465
     auth: {
       user: mail,
       pass: mailSecret,
@@ -18,8 +17,10 @@ export const sendEmail = async (email: string, token: string) => {
     from: "Nom nom foods",
     to: email,
     subject: "Нууц үг сэргээх",
-    html: `<h1>Your password reset link </h1>
-           <a href="http://localhost:3000/reset-password?_id=${token}">Click here</a> `,
+    html: `
+        <h2>Нууц үгээ сэргээхийн тулд доорх холбоос дээр дарна уу</h2>
+        <a href="http://localhost:3000/reset-password?id=${token}">click here</a>
+    `,
   };
-  await transporter.sendMail({});
+  await transporter.sendMail(mailOption);
 };
