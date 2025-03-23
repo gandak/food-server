@@ -45,11 +45,12 @@ export const getFood = async (req: Request, res: Response) => {
 export const updateFood = async (req: Request, res: Response) => {
   try {
     const { _id } = req.params;
-    const { foodName, price, image, ingredients } = req.body;
+    const { foodName, price, image, ingredients, category } = req.body;
     if (price) await foodModel.updateOne({ _id }, { price });
     if (foodName) await foodModel.updateOne({ _id }, { foodName });
     if (image) await foodModel.updateOne({ _id }, { image });
     if (ingredients) await foodModel.updateOne({ _id }, { ingredients });
+    if (category) await foodModel.updateOne({ _id }, { category });
 
     const foundFood = await foodModel.find({ _id });
 
